@@ -21,11 +21,14 @@ metadata:
     io.kompose.service: fleetman-webapp
   name: fleetman-webapp
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: "30080"
-      port: 30080
+      port: 80
       targetPort: 80
+      nodePort: 30080
+      # port: 30080
+      # targetPort: 80
   selector:
     io.kompose.service: fleetman-webapp
 ---
@@ -69,14 +72,20 @@ metadata:
     io.kompose.service: fleetman-queue
   name: fleetman-queue
 spec:
-  type: LoadBalancer
+  # type: NodePort
   ports:
     - name: "8161"
-      port: 8161
       targetPort: 8161
+      port: 8161
+    #   nodePort: 8161
+      # port: 8161
+      # targetPort: 8161
     - name: "61616"
       port: 61616
       targetPort: 61616
+      # nodePort: 61616
+      # port: 61616
+      # targetPort: 61616
   selector:
     io.kompose.service: fleetman-queue
 ---
@@ -122,10 +131,14 @@ metadata:
     io.kompose.service: fleetman-position-tracker
   name: fleetman-position-tracker
 spec:
+  type: NodePort
   ports:
     - name: "30010"
-      port: 30010
+      port: 8080
+      nodePort: 30010
       targetPort: 8080
+      # port: 30010
+      # targetPort: 8080
   selector:
     io.kompose.service: fleetman-position-tracker
 ---
@@ -202,8 +215,12 @@ metadata:
     io.kompose.service: fleetman-mongodb
   name: fleetman-mongodb
 spec:
+  # type: NodePort
   ports:
     - name: "27017"
+      # port: 27017
+      # nodePort: 27017
+      # targetPort: 27017
       port: 27017
       targetPort: 27017
   selector:
@@ -258,10 +275,14 @@ metadata:
     io.kompose.service: fleetman-api-gateway
   name: fleetman-api-gateway
 spec:
+  type: NodePort
   ports:
     - name: "30020"
-      port: 30020
+      nodePort: 30020
+      port: 8080
       targetPort: 8080
+      # port: 30020
+      # targetPort: 8080
   selector:
     io.kompose.service: fleetman-api-gateway
 ---

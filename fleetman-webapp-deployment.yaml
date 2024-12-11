@@ -36,7 +36,7 @@ spec:
                   app: fleetman-webapp
               topologyKey: kubernetes.io/hostname
       containers:
-        - image: supinfo4kube/web-app:1.0.0-dockercompose
+        - image: supinfo4kube/web-app:1.0.0
           name: fleetman-webapp
           ports:
             - containerPort: 80

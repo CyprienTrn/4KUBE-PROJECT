@@ -8,9 +8,11 @@ metadata:
     io.kompose.service: fleetman-webapp
   name: fleetman-webapp
 spec:
+  type: NodePort
   ports:
     - name: "30080"
-      port: 30080
+      port: 80
       targetPort: 80
+      nodePort: 30080
   selector:
     io.kompose.service: fleetman-webapp

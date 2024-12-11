@@ -8,9 +8,11 @@ metadata:
     io.kompose.service: fleetman-api-gateway
   name: fleetman-api-gateway
 spec:
+  type: NodePort
   ports:
     - name: "30020"
-      port: 30020
+      nodePort: 30020
+      port: 8080
       targetPort: 8080
   selector:
     io.kompose.service: fleetman-api-gateway

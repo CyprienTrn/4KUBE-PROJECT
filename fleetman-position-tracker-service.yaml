@@ -8,9 +8,11 @@ metadata:
     io.kompose.service: fleetman-position-tracker
   name: fleetman-position-tracker
 spec:
+  type: NodePort
   ports:
     - name: "30010"
-      port: 30010
+      port: 8080
+      nodePort: 30010
       targetPort: 8080
   selector:
     io.kompose.service: fleetman-position-tracker

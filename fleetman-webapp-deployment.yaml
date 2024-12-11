@@ -8,7 +8,7 @@ metadata:
     io.kompose.service: fleetman-webapp
   name: fleetman-webapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-webapp
@@ -20,6 +20,21 @@ spec:
       labels:
         io.kompose.service: fleetman-webapp
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-webapp
+              topologyKey: kubernetes.io/hostname
       containers:
         - image: supinfo4kube/web-app:1.0.0-dockercompose
           name: fleetman-webapp

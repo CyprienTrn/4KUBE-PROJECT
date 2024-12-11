@@ -42,7 +42,7 @@ metadata:
     io.kompose.service: fleetman-webapp
   name: fleetman-webapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-webapp
@@ -54,6 +54,21 @@ spec:
       labels:
         io.kompose.service: fleetman-webapp
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-webapp
+              topologyKey: kubernetes.io/hostname
       containers:
         - image: supinfo4kube/web-app:1.0.0
           name: fleetman-webapp
@@ -99,7 +114,7 @@ metadata:
     io.kompose.service: fleetman-queue
   name: fleetman-queue
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-queue
@@ -111,6 +126,21 @@ spec:
       labels:
         io.kompose.service: fleetman-queue
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-queue
+              topologyKey: kubernetes.io/hostname
       containers:
         - image: supinfo4kube/queue:1.0.1
           name: fleetman-queue
@@ -152,7 +182,7 @@ metadata:
     io.kompose.service: fleetman-position-tracker
   name: fleetman-position-tracker
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-position-tracker
@@ -164,6 +194,21 @@ spec:
       labels:
         io.kompose.service: fleetman-position-tracker
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-position-tracker
+              topologyKey: kubernetes.io/hostname
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE
@@ -185,7 +230,7 @@ metadata:
     io.kompose.service: fleetman-position-simulator
   name: fleetman-position-simulator
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-position-simulator
@@ -197,6 +242,22 @@ spec:
       labels:
         io.kompose.service: fleetman-position-simulator
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-position-simulator
+              topologyKey: kubernetes.io/hostname
+
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE
@@ -236,7 +297,7 @@ metadata:
     io.kompose.service: fleetman-mongodb
   name: fleetman-mongodb
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-mongodb
@@ -250,6 +311,21 @@ spec:
       labels:
         io.kompose.service: fleetman-mongodb
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-mongodb
+              topologyKey: kubernetes.io/hostname
       containers:
         - image: mongo:3.6.23
           name: fleetman-mongodb
@@ -296,7 +372,7 @@ metadata:
     io.kompose.service: fleetman-api-gateway
   name: fleetman-api-gateway
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-api-gateway
@@ -308,6 +384,21 @@ spec:
       labels:
         io.kompose.service: fleetman-api-gateway
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-api-gateway
+              topologyKey: kubernetes.io/hostname
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE

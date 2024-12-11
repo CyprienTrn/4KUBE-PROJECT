@@ -8,7 +8,7 @@ metadata:
     io.kompose.service: fleetman-position-tracker
   name: fleetman-position-tracker
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-position-tracker
@@ -20,6 +20,21 @@ spec:
       labels:
         io.kompose.service: fleetman-position-tracker
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-position-tracker
+              topologyKey: kubernetes.io/hostname
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE

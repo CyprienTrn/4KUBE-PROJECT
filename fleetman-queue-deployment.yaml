@@ -8,7 +8,7 @@ metadata:
     io.kompose.service: fleetman-queue
   name: fleetman-queue
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-queue
@@ -20,6 +20,21 @@ spec:
       labels:
         io.kompose.service: fleetman-queue
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-queue
+              topologyKey: kubernetes.io/hostname
       containers:
         - image: supinfo4kube/queue:1.0.1
           name: fleetman-queue

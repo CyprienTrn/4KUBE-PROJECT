@@ -8,7 +8,7 @@ metadata:
     io.kompose.service: fleetman-mongodb
   name: fleetman-mongodb
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: fleetman-mongodb
@@ -22,6 +22,21 @@ spec:
       labels:
         io.kompose.service: fleetman-mongodb
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/role
+                    operator: In
+                    values:
+                      - worker
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: fleetman-mongodb
+              topologyKey: kubernetes.io/hostname
       containers:
         - image: mongo:3.6.23
           name: fleetman-mongodb
